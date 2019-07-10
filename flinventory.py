@@ -53,8 +53,20 @@ rooms = [
 ]
 
 @app.route("/")
-def hello():
+def home():
     return render_template('main.html')
+
+@app.route("/newroom", methods=['GET', 'POST'])
+def new_room():
+    form = RoomForm()
+    if form.validate_on_submit():
+        room = Room(campusname=form.campusname.data, roomname=form.roomname.data, primaryuse=form.primaryuse.data)
+        db.session.add(room)
+        db.session.commit()
+        flash('Room added', 'success')
+        return redirect(url_for('home'))
+    return render_template('newroom.html', title='New Room',
+                           form=form, legend='New Room')
 
 @app.route("/admin")
 def admin():
