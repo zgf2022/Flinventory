@@ -23,10 +23,11 @@ class Item(db.Model):
 	itemtype = db.Column(db.String(100), nullable=False)
 	itemcondition = db.Column(db.Integer, nullable=False)
 	itemnote = db.Column(db.String(300),nullable=True)
+	itemquantity = db.Column(db.Integer,nullable=True)
 	roomid = db.Column(db.Integer, db.ForeignKey(Room.id), nullable=False)
 
 	def __repr__(self):
-		return f"item('{self.itemtype}', '{self.itemcondition}', '{self.itemnote}','{self.roomid}')"
+		return f"item('{self.itemtype}', '{self.itemcondition}', '{self.itemnote}','{self.roomid}, {self.itemquantity}')"
 
 
 
@@ -50,7 +51,7 @@ def new_room():
 def new_item():
     form = ItemForm(roomid=request.args.get('roomid'))
     if form.validate_on_submit():
-        item = Item(itemtype=form.itemtype.data, itemcondition=form.itemcondition.data, itemnote=form.itemnote.data, roomid=form.roomid.data)
+        item = Item(itemtype=form.itemtype.data, itemcondition=form.itemcondition.data, itemnote=form.itemnote.data, roomid=form.roomid.data, itemquantity=form.itemquantity.data)
         db.session.add(item)
         db.session.commit()
         flash('Item added', 'success')

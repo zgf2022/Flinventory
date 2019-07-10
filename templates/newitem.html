@@ -45,6 +45,19 @@
                     {{ form.itemnote(class="form-control form-control-lg") }}
                 {% endif %}
             </div>
+            <div class="form-group">
+                {{ form.itemquantity.label(class="form-control-label") }}
+                {% if form.itemquantity.errors %}
+                    {{ form.itemquantity(class="form-control form-control-lg is-invalid") }}
+                    <div class="invalid-feedback">
+                        {% for error in form.itemquantity.errors %}
+                            <span>{{ error }}</span>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    {{ form.itemquantity(class="form-control form-control-lg") }}
+                {% endif %}
+            </div>
             {{ form.roomid(class="form-control") }}
         </fieldset>
         <div class="form-group">

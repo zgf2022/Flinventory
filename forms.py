@@ -13,5 +13,6 @@ class ItemForm(FlaskForm):
 	itemtype = SelectField('Type', choices=[('teachercomputer', 'Teacher Computer'),('studentcomputer','Student Computer'),('projector','Projector')], validators=[DataRequired()])
 	itemcondition = SelectField('Condition', choices=[('4','4'), ('3','3'), ('2','2'), ('1','1')], validators=[DataRequired()])
 	itemnote = StringField('Note')
+	itemquantity = StringField('Quantity - leave blank for 1')
 	roomid = HiddenField()
 	submit = SubmitField('Add Item')

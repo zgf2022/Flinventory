@@ -12,7 +12,7 @@
                   <div class="card-body">
                     {% for item in items %}
                       {% if item.roomid == room.id %}
-                      <p class="card-text">{{ item.itemtype }} | {{ item.itemcondition }}</p>
+                      <p class="card-text">{{ item.itemtype }} {% if item.itemquantity %} X {{ item.itemquantity}} {% endif %}| {{ item.itemcondition }}</p>
                     {% endif %}
                     {% endfor %}
                 </div>
