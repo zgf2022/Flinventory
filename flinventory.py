@@ -18,6 +18,11 @@ class Room(db.Model):
 	def __repr__(self):
 		return f"Room('{self.campusname}', '{self.primaryuse}', '{self.roomname}', '{self.id}')"
 
+	@property
+	def items(self):
+		q = Item.query.filter(Item.roomid == self.id)
+		return q.all()
+
 class Item(db.Model):
 	id = db.Column(db.Integer,primary_key=True)
 	itemtype = db.Column(db.String(100), nullable=False)
@@ -63,6 +68,8 @@ def new_item():
 @app.route("/deleteroom", methods=['POST'])
 def delete_room():
     room = Room.query.get_or_404(request.args.get('roomid'))
+    for item in room.items:
+    	db.session.delete(item)
     db.session.delete(room)
     db.session.commit()
     flash('Your room has been deleted!', 'success')
