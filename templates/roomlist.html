@@ -1,14 +1,13 @@
 {% extends "layout.html" %}
 {% block content %}
     {% for room in rooms %}
-        <article class="media content-section">
-          <div class="media-body">
-            <div class="article-metadata">
-              <a class="mr-2" href="#">{{ room.campusname }}</a>
-              <small class="text-muted">{{ room.primaryuse }}</small>
+            <div class="card w-50 p-3 rounded">
+  				<div class="card-header rounded">
+              		<h3><a class="article-title" href="#">{{ room.roomname }}</a></h3>
+              	</div>
+              	<div class="card-body">
+              		<p class="card-text">{{ room.primaryuse }} | {{ room.campusname }}</p>
+              	</div>
             </div>
-            <h2><a class="article-title" href="#">{{ room.roomname }}</a></h2>
-          </div>
-        </article>
-    {% endfor %}
+     {% endfor %}
 {% endblock content %}
