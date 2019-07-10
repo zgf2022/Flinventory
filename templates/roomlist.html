@@ -3,11 +3,20 @@
     {% for room in rooms %}
             <div class="card w-50 p-3 rounded">
   				<div class="card-header rounded">
-              		<h3><a class="article-title" href="#">{{ room.roomname }}</a></h3>
+              		<h3>{{ room.roomname }}</h3>
               	</div>
               	<div class="card-body">
               		<p class="card-text">{{ room.primaryuse }} | {{ room.campusname }} <a href="{{ url_for('new_item', roomid=room.id) }}"><i class="material-icons float-right">add_box</i></a></p>
               	</div>
+                <div class="card-footer">
+                  <div class="card-body">
+                    {% for item in items %}
+                      {% if item.roomid == room.id %}
+                      <p class="card-text">{{ item.itemtype }} | {{ item.itemcondition }}</p>
+                    {% endif %}
+                    {% endfor %}
+                </div>
+                </div>
             </div>
      {% endfor %}
 {% endblock content %}
