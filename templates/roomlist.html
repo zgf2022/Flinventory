@@ -12,7 +12,7 @@
                   <div class="card-body">
                     {% for item in items %}
                       {% if item.roomid == room.id %}
-                      <p class="card-text">{{ item.itemtype }} {% if item.itemquantity %} X {{ item.itemquantity}} {% endif %}| {{ item.itemcondition }}<button type="button" class="btn btn-danger float-right btn-sm m-1" data-toggle="modal" data-target="#deleteitemModal{{ item.id }}">X</button></p>
+                      <p class="card-text">{{ item.itemtype }} {% if item.itemquantity %} X {{ item.itemquantity}} {% endif %}| Rating:{{ item.itemcondition }}<button type="button" class="btn btn-danger float-right btn-sm m-1" data-toggle="modal" data-target="#deleteitemModal{{ item.id }}">X</button></p>
                       <div class="modal fade" id="deleteitemModal{{ item.id }}" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
                         <div class="modal-dialog" role="document">
                           <div class="modal-content">

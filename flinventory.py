@@ -43,7 +43,7 @@ def new_room():
         db.session.add(room)
         db.session.commit()
         flash('Room added', 'success')
-        return redirect(url_for('home'))
+        return redirect(url_for(form.campusname.data))
     return render_template('newroom.html', title='New Room',
                            form=form, legend='New Room')
 
@@ -54,8 +54,9 @@ def new_item():
         item = Item(itemtype=form.itemtype.data, itemcondition=form.itemcondition.data, itemnote=form.itemnote.data, roomid=form.roomid.data, itemquantity=form.itemquantity.data)
         db.session.add(item)
         db.session.commit()
+        room = Room.query.filter(Room.id == form.roomid.data)
         flash('Item added', 'success')
-        return redirect(url_for('home'))
+        return redirect(room[0].campusname)
     return render_template('newitem.html', title='New Item',
                            form=form, legend='New Item')
 
@@ -65,7 +66,7 @@ def delete_room():
     db.session.delete(room)
     db.session.commit()
     flash('Your room has been deleted!', 'success')
-    return redirect(url_for('home'))
+    return redirect(request.referrer)
 
 @app.route("/deleteitem", methods=['POST'])
 def delete_item():
@@ -73,7 +74,7 @@ def delete_item():
     db.session.delete(item)
     db.session.commit()
     flash('Your item has been deleted!', 'success')
-    return redirect(url_for('home'))
+    return redirect(request.referrer)
 
 @app.route("/admin")
 def admin():
