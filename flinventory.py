@@ -61,34 +61,39 @@ def new_item():
 
 @app.route("/admin")
 def admin():
-	rooms = Room.query.all()
-	return render_template('roomlist.html', rooms=rooms)
+	rooms = Room.query.filter(Room.campusname == "admin")
+	items = Item.query.all()
+	return render_template('roomlist.html', rooms=rooms, items=items)
 
 @app.route("/khs")
 def khs():
-	rooms = Room.query.all()
+	rooms = Room.query.filter(Room.campusname == "khs")
 	items = Item.query.all()
 	return render_template('roomlist.html', rooms=rooms, items=items)
 
 @app.route("/kms")
 def kms():
-	rooms= Room.query.all()
-	return render_template('roomlist.html', rooms=rooms)
+	rooms = Room.query.filter(Room.campusname == "kms")
+	items = Item.query.all()
+	return render_template('roomlist.html', rooms=rooms, items=items)
 
 @app.route("/kis")
 def kis():
-	rooms = Room.query.all()
-	return render_template('roomlist.html', rooms=rooms)
+	rooms = Room.query.filter(Room.campusname == "kis")
+	items = Item.query.all()
+	return render_template('roomlist.html', rooms=rooms, items=items)
 
 @app.route("/kes")
 def kes():
-	rooms = Room.query.all()
-	return render_template('roomlist.html', rooms=rooms)
+	rooms = Room.query.filter(Room.campusname == "kes")
+	items = Item.query.all()
+	return render_template('roomlist.html', rooms=rooms, items=items)
 
 @app.route("/kps")
 def kps():
-	rooms = Room.query.all()
-	return render_template('roomlist.html', rooms=rooms)
+	rooms = Room.query.filter(Room.campusname == "kps")
+	items = Item.query.all()
+	return render_template('roomlist.html', rooms=rooms, items=items)
 	
 if __name__ == '__main__':
     app.run(debug=True)
