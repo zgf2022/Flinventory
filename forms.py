@@ -1,5 +1,5 @@
 from flask_wtf import FlaskForm
-from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField
+from wtforms import StringField, PasswordField, SubmitField, BooleanField, SelectField,HiddenField
 from wtforms.validators import DataRequired, Length, Email, EqualTo
 
 class RoomForm(FlaskForm):
@@ -8,3 +8,10 @@ class RoomForm(FlaskForm):
     primaryuse = SelectField('Primary users',choices=[('cte', 'cte'), ('sped', 'sped'), ('staff', 'staff'), ('generaled', 'generaled')], validators=[DataRequired()])
     roomname = StringField('Room Name', validators=[DataRequired()])
     submit = SubmitField('Add Room')
+
+class ItemForm(FlaskForm):
+	itemtype = SelectField('Type', choices=[('teachercomputer', 'Teacher Computer'),('studentcomputer','Student Computer'),('projector','Projector')], validators=[DataRequired()])
+	itemcondition = SelectField('Condition', choices=[('4','4'), ('3','3'), ('2','2'), ('1','1')], validators=[DataRequired()])
+	itemnote = StringField('Note')
+	roomid = HiddenField()
+	submit = SubmitField('Add Item')

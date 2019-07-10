@@ -6,7 +6,7 @@
               		<h3><a class="article-title" href="#">{{ room.roomname }}</a></h3>
               	</div>
               	<div class="card-body">
-              		<p class="card-text">{{ room.primaryuse }} | {{ room.campusname }}</p>
+              		<p class="card-text">{{ room.primaryuse }} | {{ room.campusname }} <a href="{{ url_for('new_item', roomid=room.id) }}"><i class="material-icons float-right">add_box</i></a></p>
               	</div>
             </div>
      {% endfor %}

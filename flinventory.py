@@ -1,7 +1,7 @@
-from flask import Flask, render_template, url_for, flash, redirect
+from flask import Flask, render_template, url_for, flash, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-from forms import RoomForm
+from forms import RoomForm, ItemForm
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '57e8728bb0b13ce0c676dfde280ba245'
@@ -35,22 +35,22 @@ class Room(db.Model):
 	campusname = db.Column(db.String(10), nullable=False)
 	primaryuse = db.Column(db.String(100), nullable=False)
 	roomname = db.Column(db.String(100), nullable=False)
+	items = db.relationship('Item', backref='roomname', lazy=True)
 	
 	def __repr__(self):
-		return f"Room('{self.campusname}', '{self.primaryuse}', '{self.roomname}')"
+		return f"Room('{self.campusname}', '{self.primaryuse}', '{self.roomname}', '{self.id}')"
 
-rooms = [
-    {
-        'campusname': 'khs',
-        'primaryuse': 'CTE',
-        'roomname': '126'
-    },
-    {
-        'campusname': 'khs',
-        'primaryuse': 'CTE',
-        'roomname': '129'
-    }
-]
+class Item(db.Model):
+	id = db.Column(db.Integer,primary_key=True)
+	itemtype = db.Column(db.String(100), nullable=False)
+	itemcondition = db.Column(db.Integer, nullable=False)
+	itemnote = db.Column(db.String(300),nullable=True)
+	roomid = db.Column(db.Integer, db.ForeignKey(Room.id), nullable=False)
+
+	def __repr__(self):
+		return f"item('{self.itemtype}', '{self.itemcondition}', '{self.itemnote}','{self.roomid}')"
+
+
 
 @app.route("/")
 def home():
@@ -67,6 +67,18 @@ def new_room():
         return redirect(url_for('home'))
     return render_template('newroom.html', title='New Room',
                            form=form, legend='New Room')
+
+@app.route("/newitem", methods=['GET', 'POST'])
+def new_item():
+    form = ItemForm(roomid=request.args.get('roomid'))
+    if form.validate_on_submit():
+        item = Item(itemtype=form.itemtype.data, itemcondition=form.itemcondition.data, itemnote=form.itemnote.data, roomid=form.roomid.data)
+        db.session.add(item)
+        db.session.commit()
+        flash('Item added', 'success')
+        return redirect(url_for('home'))
+    return render_template('newitem.html', title='New Item',
+                           form=form, legend='New Item')
 
 @app.route("/admin")
 def admin():
