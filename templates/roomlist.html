@@ -1,5 +1,8 @@
 {% extends "layout.html" %}
-{% block content %}
+{% block content %} 
+    {% if rooms.count() < 1 %}
+    <h4>No rooms added yet</h4>
+    {% endif %}
     {% for room in rooms %}
             <div class="card w-50 p-3 rounded">
   				<div class="card-header rounded">
