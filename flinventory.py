@@ -27,7 +27,7 @@ class Item(db.Model):
 	roomid = db.Column(db.Integer, db.ForeignKey(Room.id), nullable=False)
 
 	def __repr__(self):
-		return f"item('{self.itemtype}', '{self.itemcondition}', '{self.itemnote}','{self.roomid}, {self.itemquantity}')"
+		return f"item('{self.itemtype}', '{self.itemcondition}', '{self.itemnote}','{self.roomid}', '{self.itemquantity}','' {self.id}')"
 
 
 
@@ -58,6 +58,22 @@ def new_item():
         return redirect(url_for('home'))
     return render_template('newitem.html', title='New Item',
                            form=form, legend='New Item')
+
+@app.route("/deleteroom", methods=['POST'])
+def delete_room():
+    room = Room.query.get_or_404(request.args.get('roomid'))
+    db.session.delete(room)
+    db.session.commit()
+    flash('Your room has been deleted!', 'success')
+    return redirect(url_for('home'))
+
+@app.route("/deleteitem", methods=['POST'])
+def delete_item():
+    item = Item.query.get_or_404(request.args.get('itemid'))
+    db.session.delete(item)
+    db.session.commit()
+    flash('Your item has been deleted!', 'success')
+    return redirect(url_for('home'))
 
 @app.route("/admin")
 def admin():
