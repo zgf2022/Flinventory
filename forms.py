@@ -16,3 +16,7 @@ class ItemForm(FlaskForm):
 	itemquantity = StringField('Quantity - leave blank for 1')
 	roomid = HiddenField()
 	submit = SubmitField('Add Item')
+
+class SettingsForm(FlaskForm):
+	appname = StringField('Application name', default='Flinventory')
+	submit = SubmitField('Save Changes')

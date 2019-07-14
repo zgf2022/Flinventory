@@ -1,12 +1,16 @@
 from flask import Flask, render_template, url_for, flash, redirect, request
 from flask_sqlalchemy import SQLAlchemy
 from datetime import datetime
-from forms import RoomForm, ItemForm
+from forms import RoomForm, ItemForm, SettingsForm
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = '57e8728bb0b13ce0c676dfde280ba245'
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db = SQLAlchemy(app)
+
+config = {
+	'appname':'Flinventory'
+}
 
 class Room(db.Model):
 	id = db.Column(db.Integer, primary_key=True)
@@ -38,11 +42,17 @@ class Item(db.Model):
 
 @app.route("/")
 def home():
-    return render_template('main.html')
+    return render_template('main.html', config=config)
 
 @app.route("/settings", methods=['GET', 'POST'])
 def settings():
-	return render_template('settings.html')
+	form = SettingsForm()
+	if form.validate_on_submit():
+		config["appname"] = form.appname.data
+		flash('Settings Saved', 'success')
+		return redirect('/settings')
+	return render_template('settings.html', title='Settings',
+								form=form, legend='Settings', config=config)
 
 @app.route("/newroom", methods=['GET', 'POST'])
 def new_room():
@@ -54,7 +64,7 @@ def new_room():
         flash('Room added', 'success')
         return redirect(url_for(form.campusname.data))
     return render_template('newroom.html', title='New Room',
-                           form=form, legend='New Room')
+                           form=form, legend='New Room', config=config)
 
 @app.route("/newitem", methods=['GET', 'POST'])
 def new_item():
@@ -67,7 +77,7 @@ def new_item():
         flash('Item added', 'success')
         return redirect(room[0].campusname)
     return render_template('newitem.html', title='New Item',
-                           form=form, legend='New Item')
+                           form=form, legend='New Item', config=config)
 
 @app.route("/deleteroom", methods=['POST'])
 def delete_room():
@@ -91,37 +101,37 @@ def delete_item():
 def admin():
 	rooms = Room.query.filter(Room.campusname == "admin")
 	items = Item.query.all()
-	return render_template('roomlist.html', rooms=rooms, items=items)
+	return render_template('roomlist.html', rooms=rooms, items=items, config=config)
 
 @app.route("/khs")
 def khs():
 	rooms = Room.query.filter(Room.campusname == "khs")
 	items = Item.query.all()
-	return render_template('roomlist.html', rooms=rooms, items=items)
+	return render_template('roomlist.html', rooms=rooms, items=items, config=config)
 
 @app.route("/kms")
 def kms():
 	rooms = Room.query.filter(Room.campusname == "kms")
 	items = Item.query.all()
-	return render_template('roomlist.html', rooms=rooms, items=items)
+	return render_template('roomlist.html', rooms=rooms, items=items, config=config)
 
 @app.route("/kis")
 def kis():
 	rooms = Room.query.filter(Room.campusname == "kis")
 	items = Item.query.all()
-	return render_template('roomlist.html', rooms=rooms, items=items)
+	return render_template('roomlist.html', rooms=rooms, items=items, config=config)
 
 @app.route("/kes")
 def kes():
 	rooms = Room.query.filter(Room.campusname == "kes")
 	items = Item.query.all()
-	return render_template('roomlist.html', rooms=rooms, items=items)
+	return render_template('roomlist.html', rooms=rooms, items=items, config=config)
 
 @app.route("/kps")
 def kps():
 	rooms = Room.query.filter(Room.campusname == "kps")
 	items = Item.query.all()
-	return render_template('roomlist.html', rooms=rooms, items=items)
+	return render_template('roomlist.html', rooms=rooms, items=items, config=config)
 	
 if __name__ == '__main__':
     app.run(debug=True, host='0.0.0.0')
