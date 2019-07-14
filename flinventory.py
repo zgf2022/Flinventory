@@ -40,6 +40,10 @@ class Item(db.Model):
 def home():
     return render_template('main.html')
 
+@app.route("/settings", methods=['GET', 'POST'])
+def settings():
+	return render_template('settings.html')
+
 @app.route("/newroom", methods=['GET', 'POST'])
 def new_room():
     form = RoomForm()
