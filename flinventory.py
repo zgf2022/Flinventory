@@ -9,7 +9,11 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
 db = SQLAlchemy(app)
 
 config = {
-	'appname':'Flinventory'
+	'appname':'Flinventory',
+	'choices': [('teachercomputer', 'Teacher Computer'),
+			('studentcomputer','Student Computer'),
+			('projector','Projector'),
+			('documentcamera','Document Camera')]
 }
 
 class Room(db.Model):
@@ -69,6 +73,7 @@ def new_room():
 @app.route("/newitem", methods=['GET', 'POST'])
 def new_item():
     form = ItemForm(roomid=request.args.get('roomid'))
+    form.itemtype.choices = config['choices']
     if form.validate_on_submit():
         item = Item(itemtype=form.itemtype.data, itemcondition=form.itemcondition.data, itemnote=form.itemnote.data, roomid=form.roomid.data, itemquantity=form.itemquantity.data)
         db.session.add(item)

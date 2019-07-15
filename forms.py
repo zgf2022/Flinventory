@@ -10,7 +10,7 @@ class RoomForm(FlaskForm):
     submit = SubmitField('Add Room')
 
 class ItemForm(FlaskForm):
-	itemtype = SelectField('Type', choices=[('teachercomputer', 'Teacher Computer'),('studentcomputer','Student Computer'),('projector','Projector')], validators=[DataRequired()])
+	itemtype = SelectField('Type', validators=[DataRequired()])
 	itemcondition = SelectField('Condition', choices=[('4','4'), ('3','3'), ('2','2'), ('1','1')], validators=[DataRequired()])
 	itemnote = StringField('Note')
 	itemquantity = StringField('Quantity - leave blank for 1')
@@ -18,5 +18,5 @@ class ItemForm(FlaskForm):
 	submit = SubmitField('Add Item')
 
 class SettingsForm(FlaskForm):
-	appname = StringField('Application name', default='Flinventory')
+	appname = StringField('Application name')
 	submit = SubmitField('Save Changes')

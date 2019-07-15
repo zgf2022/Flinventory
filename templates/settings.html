@@ -9,14 +9,14 @@
             <div class="form-group">
                 {{ form.appname.label(class="form-control-label") }}
                 {% if form.appname.errors %}
-                    {{ form.appname(class="form-control form-control-lg is-invalid") }}
+                    {{ form.appname(class="form-control form-control-lg is-invalid", value=config.appname) }}
                     <div class="invalid-feedback">
                         {% for error in form.appname.errors %}
                             <span>{{ error }}</span>
                         {% endfor %}
                     </div>
                 {% else %}
-                    {{ form.appname(class="form-control form-control-lg") }}
+                    {{ form.appname(class="form-control form-control-lg" , value=config.appname) }}
                 {% endif %}
             </div>
             
